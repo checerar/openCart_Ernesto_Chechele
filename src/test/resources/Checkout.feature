@@ -2,7 +2,8 @@
 Feature: Validate the checkout process
 
   Background:
-    Given the user is on the checkout page
+    Given the user is on the "https://opencart.abstracta.us" page
+    And the user has logged in with username "eechechele@gmail.com" and password "123456789"
 
   @Payment
   Scenario Outline: Make Payment

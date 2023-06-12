@@ -1,16 +1,16 @@
 package StepDefs;
 
+import Pages.CartPage;
+import Pages.LoginPage;
+import Pages.PagesFactory;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
 
 public class CartStepDefs {
 
-    @Given("the user is logged in")
-    public void userIsLoggedIn() {
-        // Implementa aquí la lógica para el inicio de sesión del usuario
-    }
-
+    CartPage cartPage = PagesFactory.getInstance().getCartPage();
     @When("the user clicks on the {string} button of a {string}")
     public void clickAddToCartButton(String button, String product) {
         // Implementa aquí la lógica para hacer clic en el botón "Add to Cart" del producto indicado
@@ -21,10 +21,6 @@ public class CartStepDefs {
         // Implementa aquí la lógica para verificar que el producto indicado se haya añadido al carrito de compras
     }
 
-    @Then("the user should see a success message: {string}")
-    public void verifySuccessMessage(String message) {
-        // Implementa aquí la lógica para verificar que se muestre el mensaje de éxito indicado
-    }
 
     @Given("the user has added a {string} to the shopping cart")
     public void userHasAddedProductToCart(String product) {
@@ -44,5 +40,13 @@ public class CartStepDefs {
     @Then("the {string} should be removed from the shopping cart")
     public void verifyProductRemovedFromCart(String product) {
         // Implementa aquí la lógica para verificar que el producto indicado se haya eliminado del carrito de compras
+    }
+
+    @Given("the user is on the {string} page")
+    public void theUserIsOnThePage(String arg0) {
+    }
+
+    @And("the user has logged in with username {string} and password {string}")
+    public void theUserHasLoggedInWithUsernameAndPassword(String arg0, String arg1) {
     }
 }

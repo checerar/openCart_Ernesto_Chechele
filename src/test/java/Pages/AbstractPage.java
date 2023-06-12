@@ -6,7 +6,7 @@ import org.openqa.selenium.support.ui.Wait;
 
 @Slf4j
 public abstract class AbstractPage {
-    private final WebDriver driver;
+    final WebDriver driver;
 
     protected Wait<WebDriver> wait;
 

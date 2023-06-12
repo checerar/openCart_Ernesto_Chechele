@@ -2,7 +2,9 @@
 Feature: Shopping Cart
 
   Background:
-    Given the user is logged in
+    Given the user is on the "https://www.opencart.abstracta.us" page
+    And the user has logged in with username "eechechele@gmail.com" and password "123456789"
+
 
   @AddProduct
   Scenario Outline: Add Product to Cart

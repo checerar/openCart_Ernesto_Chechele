@@ -2,10 +2,9 @@ package Pages;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class FooterLinksPage {
+public class FooterLinksPage extends AbstractPage {
     private WebDriver driver;
 
     // Locators
@@ -15,7 +14,13 @@ public class FooterLinksPage {
     private By myAccountSection = By.name("My Account");
 
     public FooterLinksPage(WebDriver driver) {
+        super(driver);
         this.driver = driver;
+    }
+
+    @Override
+    public WebElement getPageLoadedTestElement() {
+        return null;
     }
 
     public void clickInformationLink(String link) {

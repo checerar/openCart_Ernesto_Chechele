@@ -2,19 +2,26 @@ package Pages;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.PageFactory;
 
-public class LoginPage {
-    private WebDriver driver;
+public class LoginPage extends AbstractPage {
 
-    // Locators
+
+
     private By usernameField = By.id("input-email");
     private By passwordField = By.id("input-password");
     private By loginButton = By.xpath("//div[@class='well']//input[@value='Login']");
     private By forgotPasswordLink = By.linkText("Forgotten Password");
 
     public LoginPage(WebDriver driver) {
-        this.driver = driver;
+        super(driver);
+        PageFactory.initElements(driver, this);
+    }
+
+    @Override
+    public WebElement getPageLoadedTestElement() {
+        return null;
     }
 
     public void enterUsername(String username) {

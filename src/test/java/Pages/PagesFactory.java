@@ -4,8 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.devtools.v85.serviceworker.model.RegistrationID;
 
-public class PagesFactory {
-
+public class PagesFactory extends AbstractPage {
     private static PagesFactory pagesFactories;
     private final WebDriver driver;
     private final RegistrationPage registrationPage;
@@ -21,6 +20,7 @@ public class PagesFactory {
 
     //constructor
     private PagesFactory(WebDriver driver) {
+        super(driver);
         this.driver = driver;
         registrationPage = new RegistrationPage(driver);
         loginPage = new LoginPage(driver);
@@ -32,6 +32,12 @@ public class PagesFactory {
         footerLinksPage = new FooterLinksPage(driver);
 
     }
+
+    @Override
+    public WebElement getPageLoadedTestElement() {
+        return null;
+    }
+
 
     public static void start(WebDriver driver) {
 

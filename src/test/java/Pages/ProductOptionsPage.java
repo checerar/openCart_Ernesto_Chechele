@@ -2,10 +2,9 @@ package Pages;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class ProductOptionsPage {
+public class ProductOptionsPage extends AbstractPage{
     private WebDriver driver;
 
     // Locators
@@ -14,7 +13,13 @@ public class ProductOptionsPage {
     private By searchResults = By.xpath("//div[@class='product-thumb']");
 
     public ProductOptionsPage(WebDriver driver) {
+        super(driver);
         this.driver = driver;
+    }
+
+    @Override
+    public WebElement getPageLoadedTestElement() {
+        return null;
     }
 
     public void searchProduct(String product) {

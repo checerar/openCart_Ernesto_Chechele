@@ -2,9 +2,9 @@ package Pages;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
-public class RegistrationPage {
+public class RegistrationPage extends AbstractPage{
     private WebDriver driver;
 
     // Locators
@@ -18,7 +18,13 @@ public class RegistrationPage {
     private By continueButton = By.xpath("//div[@class='pull-right']//input[@value='Continue']");
 
     public RegistrationPage(WebDriver driver) {
+        super(driver);
         this.driver = driver;
+    }
+
+    @Override
+    public WebElement getPageLoadedTestElement() {
+        return null;
     }
 
     public void enterFirstName(String firstName) {

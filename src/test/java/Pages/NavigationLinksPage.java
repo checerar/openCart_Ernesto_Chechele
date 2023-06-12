@@ -2,10 +2,9 @@ package Pages;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class NavigationLinksPage {
+public class NavigationLinksPage extends AbstractPage {
     private WebDriver driver;
 
     // Locators
@@ -13,7 +12,13 @@ public class NavigationLinksPage {
     private By dropdownMenu = By.className("dropdown-menu");
 
     public NavigationLinksPage(WebDriver driver) {
+        super(driver);
         this.driver = driver;
+    }
+
+    @Override
+    public WebElement getPageLoadedTestElement() {
+        return null;
     }
 
     public void clickNavigationLink(String title) {

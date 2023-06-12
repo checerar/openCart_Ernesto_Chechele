@@ -1,34 +1,51 @@
 package Pages;
 
-import org.openqa.selenium.WebDriver;
+import lombok.extern.slf4j.Slf4j;
 import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
 
-public class CartPage {
-    private WebDriver driver;
+@Slf4j
+public class CartPage extends AbstractPage {
 
-    // Locators
-    private By successMessage = By.className("alert alert-success alert-dismissible");
-    private By productInCart = By.xpath("//div[@id='cart']//a[text()='MacBook']");
-    private By removeButton = By.xpath("//button[@title='Remove']");
+    public static final String PAGE_URL = "https://www.opencart.abstracta.us/cart.html";
 
-    public CartPage(WebDriver driver) {
-        this.driver = driver;
-    }
+    @FindBy(className = "alert alert-success alert-dismissible")
+    private WebElement successMessage;
+
+    @FindBy(xpath = "//div[@id='cart']//a[text()='MacBook']")
+    private WebElement productInCart;
+
+    @FindBy(xpath = "//button[@title='Remove']")
+    private WebElement removeButton;
+
 
     public String getSuccessMessage() {
-        return driver.findElement(successMessage).getText();
+        return driver.findElement((By) successMessage).getText();
     }
 
     public boolean isProductInCart(String product) {
-        return driver.findElements(productInCart).stream()
+
+        return driver.findElements((By) productInCart).stream()
                 .anyMatch(element -> element.getText().equals(product));
     }
 
     public void clickRemoveButton(String product) {
-        driver.findElements(productInCart).stream()
+        driver.findElements((By) productInCart).stream()
                 .filter(element -> element.getText().equals(product))
                 .findFirst()
-                .ifPresent(element -> element.findElement(removeButton).click());
+                .ifPresent(element -> element.findElement((By) removeButton).click());
+    }
+
+    public CartPage(WebDriver driver) {
+        super(driver);
+
+    }
+
+    @Override
+    public WebElement getPageLoadedTestElement() {
+        return null;
     }
 }

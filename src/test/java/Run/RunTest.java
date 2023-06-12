@@ -13,8 +13,8 @@ import org.junit.runner.RunWith;
                 "html:target/cucumber-html-report.html",
         },
         glue = {
-                "StepDefs",
-                "Support"
+                "/StepDefs",
+                "/Support"
         },
         features = {
                 "src/test/resources"
