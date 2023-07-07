@@ -6,6 +6,7 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
 @Slf4j
 public class CartPage extends AbstractPage {
@@ -21,6 +22,15 @@ public class CartPage extends AbstractPage {
     @FindBy(xpath = "//button[@title='Remove']")
     private WebElement removeButton;
 
+    public CartPage(WebDriver driver) {
+        super(driver);
+        PageFactory.initElements(driver, this);
+    }
+
+    @Override
+    public WebElement getPageLoadedTestElement() {
+        return null;
+    }
 
     public String getSuccessMessage() {
         return driver.findElement((By) successMessage).getText();
@@ -37,15 +47,5 @@ public class CartPage extends AbstractPage {
                 .filter(element -> element.getText().equals(product))
                 .findFirst()
                 .ifPresent(element -> element.findElement((By) removeButton).click());
-    }
-
-    public CartPage(WebDriver driver) {
-        super(driver);
-
-    }
-
-    @Override
-    public WebElement getPageLoadedTestElement() {
-        return null;
     }
 }

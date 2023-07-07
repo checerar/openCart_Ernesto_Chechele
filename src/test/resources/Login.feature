@@ -18,13 +18,13 @@ Feature: Login
 
   @LoginKo
   Scenario Outline: Verify invalid user can´t login
-    When the user enters invalid credentials "<username>" and "<password>"
+    When the user enters invalid credentials "<invusername>" and "<invpassword>"
     And clicks on the "Login" button
     Then the user should receive an error message indicating that the credentials are invalid
 
     Examples:
-      | username             | password |
-      | eechechele@gmail.com | 12345678 |
+      | invusername         | invpassword |
+      | echechele@gmail.com | 12345678    |
 
   @PasswordRecovery
   Scenario: Verify the functionality of the Password Recovery link

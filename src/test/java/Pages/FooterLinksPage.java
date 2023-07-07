@@ -3,6 +3,7 @@ package Pages;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.PageFactory;
 
 public class FooterLinksPage extends AbstractPage {
     private WebDriver driver;
@@ -15,14 +16,13 @@ public class FooterLinksPage extends AbstractPage {
 
     public FooterLinksPage(WebDriver driver) {
         super(driver);
-        this.driver = driver;
+        PageFactory.initElements(driver, this);
     }
 
     @Override
     public WebElement getPageLoadedTestElement() {
         return null;
     }
-
     public void clickInformationLink(String link) {
         WebElement informationSectionElement = driver.findElement(informationSection);
         WebElement linkElement = informationSectionElement.findElement(By.linkText(link));
