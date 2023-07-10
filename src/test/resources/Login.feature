@@ -17,14 +17,17 @@ Feature: Login
 
 
   @LoginKo
-  Scenario Outline: Verify invalid user can´t login
+  Scenario Outline: Verify invalid user can't login
     When the user enters invalid credentials "<invusername>" and "<invpassword>"
-    And clicks on the "Login" button
-    Then the user should receive an error message indicating that the credentials are invalid
+    And clicks on the "Login" button "<maxAttempts>" attempts
+    Then the user should receive an error "<errorMessage>" message
 
     Examples:
-      | invusername         | invpassword |
-      | echechele@gmail.com | 12345678    |
+      | invusername        | invpassword | maxAttempts | errorMessage                                                                                       |
+      | chechel@gmail.com | 12345678    | 1           | Warning: No match for E-Mail Address and/or Password.                                              |
+      | use@example.com   | 1           | 6           | Warning: Your account has exceeded allowed number of login attempts. Please try again in 1 hour.   |
+
+
 
   @PasswordRecovery
   Scenario: Verify the functionality of the Password Recovery link
@@ -32,12 +35,13 @@ Feature: Login
     Then the user should be redirected to the password recovery page
 
   @PasswordRecoveryWithEmailConfirmation
-  Scenario Outline: Verify that the user recive an email confirmation to recover the password
-    When the user enters their email address "<email>" in the provided field
+  Scenario Outline: Verify that the user recives an email confirmation to recover the password
+    When the user clicks on the "Forgot Password" link
+    And the user enters their email address "<email>" in the provided field
     And clicks on the "Continue" button
     Then the user should receive a message "<message>"
 
     Examples:
       | email                | message                                                                     |
-      | eechechele@gmail.com | An email with a confirmation link has been sent your email address          |
-      | user2@example.com    | Warning: The E-Mail Address was not found in our records, please try again! |
+      | eechechele@gmail.com | An email with a confirmation link has been sent your email address.         |
+      | user1@example.com    | Warning: The E-Mail Address was not found in our records, please try again! |
