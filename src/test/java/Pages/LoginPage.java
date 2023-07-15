@@ -11,15 +11,14 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 @Slf4j
 public class LoginPage extends AbstractPage {
 
-    private By usernameField = By.id("input-email");
-    private By passwordField = By.id("input-password");
-    private By loginButton = By.xpath("//div[@class='well']//input[@value='Login']");
-    private By errorMessage = By.xpath("//div[@class='alert alert-danger alert-dismissible']");
-
-    private By continueButton = By.xpath("//div[@class='pull-right']//input[@value='Continue']");
-    private By forgotPasswordLink = By.linkText("Forgotten Password");
-    private By passwordRecoverySuccessMessage = By.xpath("//div[@class='alert alert-success alert-dismissible']");
-    private By passwordRecoveryErrorMessage = By.xpath("//div[@class='alert alert-danger alert-dismissible']");
+    private final By usernameField = By.id("input-email");
+    private final By passwordField = By.id("input-password");
+    private final By loginButton = By.xpath("//div[@class='well']//input[@value='Login']");
+    private final By errorMessage = By.xpath("//div[@class='alert alert-danger alert-dismissible']");
+    private final By continueButton = By.xpath("//div[@class='pull-right']//input[@value='Continue']");
+    private final By forgottenPasswordLink = By.linkText("Forgotten Password");
+    private final By logInLink = By.linkText("Login");
+    private final By myAccountLink = By.linkText("My Account");
 
     public LoginPage(WebDriver driver) throws InterruptedException {
         super(driver);
@@ -46,14 +45,26 @@ public class LoginPage extends AbstractPage {
         getDriver().findElement(continueButton).click();
     }
 
-    public void clickForgotPasswordLink() {
-        getDriver().findElement(forgotPasswordLink).click();
+    public void clickForgottenPasswordLink() {
+        getDriver().findElement(forgottenPasswordLink).click();
+    }
+
+    public void clickMyAccountLink() {
+        getDriver().findElement(myAccountLink).click();
+    }
+
+    public void navigateToHomePage() {
+        String expectedUrl = "https://opencart.abstracta.us/";
+        navigateToUrl(expectedUrl);
+    }
+
+    public void clickLoginLink() {
+        getDriver().findElement(logInLink).click();
     }
 
     public void navigateToLoginPage() {
-        getDriver().get("https://opencart.abstracta.us/index.php?route=account/login");
-        String currentUrl = getDriver().getCurrentUrl();
-        Assert.assertEquals("https://opencart.abstracta.us/index.php?route=account/login", currentUrl);
+        String expectedUrl = "https://opencart.abstracta.us/index.php?route=account/login";
+        navigateToUrl(expectedUrl);
     }
 
     public void enterCredentials(String username, String password) {
@@ -70,10 +81,9 @@ public class LoginPage extends AbstractPage {
         enterUsername(email);
     }
 
-    public void verifyRedirectToHomePage() {
-        getDriver().get("https://opencart.abstracta.us/index.php?route=common/home");
-        String currentUrl = getDriver().getCurrentUrl();
-        Assert.assertEquals("https://opencart.abstracta.us/index.php?route=common/home", currentUrl);
+    public void verifyRedirectToAccountPage() {
+        String expectedUrl = "https://opencart.abstracta.us/index.php?route=account/account";
+        verifyCurrentUrl(expectedUrl);
     }
 
     public void repeatedlyClickLoginButton(int maxAttempts) {
@@ -88,9 +98,8 @@ public class LoginPage extends AbstractPage {
     }
 
     public void verifyRedirectToPasswordRecoveryPage() {
-        getDriver().get("https://opencart.abstracta.us/index.php?route=account/forgotten");
-        String currentUrl = getDriver().getCurrentUrl();
-        Assert.assertEquals("https://opencart.abstracta.us/index.php?route=account/forgotten", currentUrl);
+        String expectedUrl = "https://opencart.abstracta.us/index.php?route=account/forgotten";
+        verifyCurrentUrl(expectedUrl);
     }
 
     public void verifyMessage(String expectedMessage) {
@@ -107,6 +116,16 @@ public class LoginPage extends AbstractPage {
         }
 
         Assert.fail("El mensaje esperado no coincide con ningún mensaje encontrado.");
+    }
+
+    private void navigateToUrl(String expectedUrl) {
+        getDriver().get(expectedUrl);
+        verifyCurrentUrl(expectedUrl);
+    }
+
+    private void verifyCurrentUrl(String expectedUrl) {
+        String currentUrl = getDriver().getCurrentUrl();
+        Assert.assertEquals(expectedUrl, currentUrl);
     }
 
 }
