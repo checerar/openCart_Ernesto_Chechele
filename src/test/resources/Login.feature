@@ -3,13 +3,16 @@ Feature: Login
 
   Background:
     Given the user is registered
-    And is in the login page
+    And the user is on the home page
+    And the user clicks on the "My Account" link
+    And the user clicks on the "Login" link
+    And the user is on the login page
 
   @LoginOk
   Scenario Outline: Verify valid user can login
     When the user enters valid credentials "<username>" and "<password>"
     And clicks on the "Login" button
-    Then the user should be redirected to the home page
+    Then the user should be redirected to the account page
 
     Examples:
       | username             | password  |
@@ -31,13 +34,13 @@ Feature: Login
 
   @PasswordRecovery
   Scenario: Verify the functionality of the Password Recovery link
-    When the user clicks on the "Forgot Password" link
+    And the user clicks on the "Forgotten Password" link
     Then the user should be redirected to the password recovery page
 
   @PasswordRecoveryWithEmailConfirmation
   Scenario Outline: Verify that the user recives an email confirmation to recover the password
-    When the user clicks on the "Forgot Password" link
-    And the user enters their email address "<email>" in the provided field
+    And the user clicks on the "Forgotten Password" link
+    When the user enters their email address "<email>" in the provided field
     And clicks on the "Continue" button
     Then the user should receive a message "<message>"
 
