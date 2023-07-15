@@ -2,7 +2,8 @@
 Feature: User Logout
 
   Background:
-    Given the user is logged in to the website
+    Given the user is logged in to the website with username: "eechechele@gmail.com" and password: "123456789"
+    And the user is on the accountpage
 
   @LogoutOk
   Scenario: Successful User Logout
