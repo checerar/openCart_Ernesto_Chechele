@@ -6,17 +6,50 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.When;
 import io.cucumber.java.en.Then;
+import java.util.Random;
 
 public class LoginStepDefs {
 
-    LoginPage loginPage = PagesFactory.getInstance().getLoginPage();
+    private final LoginPage loginPage;
+    private final Random random = new Random();
+
+    private String generateRandomUsername() {
+        String prefix = "usuario";
+        String domain = "example.com";
+        int randomNum = random.nextInt(10000);
+        return prefix + randomNum + "@" + domain;
+    }
+
+    public LoginStepDefs() {
+        this.loginPage = PagesFactory.getInstance().getLoginPage();
+    }
 
     @Given("the user is registered")
     public void userIsRegistered() {
         // Lógica para verificar que el usuario esté registrado
     }
 
-    @Given("is in the login page")
+    @And("the user is on the home page")
+    public void theUserIsOnHomePage() {
+        loginPage.navigateToHomePage();
+    }
+
+    @And("the user clicks on the {string} link")
+    public void clicksOnTheLink(String link) {
+        switch (link) {
+            case "Login":
+                loginPage.clickLoginLink();
+                break;
+            case "Forgotten Password":
+                loginPage.clickForgottenPasswordLink();
+                break;
+            case "My Account":
+                loginPage.clickMyAccountLink();
+                break;
+        }
+    }
+
+    @And("the user is on the login page")
     public void userIsInLoginPage() {
         loginPage.navigateToLoginPage();
     }
@@ -37,12 +70,10 @@ public class LoginStepDefs {
 
     @When("the user enters invalid credentials {string} and {string}")
     public void enterInvalidCredentials(String invusername, String invpassword) {
+       if (invusername.equals("random@example.com")) {
+            invusername = generateRandomUsername();
+        }
         loginPage.enterInvalidCredentials(invusername, invpassword);
-    }
-
-    @When("the user clicks on the {string} link")
-    public void clickForgotPasswordLink(String link) {
-        loginPage.clickForgotPasswordLink();
     }
 
     @When("the user enters their email address {string} in the provided field")
@@ -50,9 +81,9 @@ public class LoginStepDefs {
         loginPage.enterEmailAddress(email);
     }
 
-    @Then("the user should be redirected to the home page")
-    public void verifyRedirectToHomePage() {
-        loginPage.verifyRedirectToHomePage();
+    @Then("the user should be redirected to the account page")
+    public void verifyRedirectToAccountPage() {
+        loginPage.verifyRedirectToAccountPage();
     }
 
     @Then("the user should be redirected to the password recovery page")
@@ -64,16 +95,11 @@ public class LoginStepDefs {
     public void verifyMessage(String message) {
         loginPage.verifyMessage(message);
     }
-
-    @When("the user clicks on the {string} button {int} attempts")
-    public void clicksOnTheButtonAttempts(String button, int maxAttempts) {
-        loginPage.repeatedlyClickLoginButton(maxAttempts);
-    }
-
     @Then("the user should receive an error {string} message")
     public void verifyErrorMessage(String errorMessage) {
         loginPage.verifyInvalidCredentialsErrorMessage(errorMessage);
     }
+
     @And("clicks on the {string} button {string} attempts")
     public void clicksOnTheButtonAttempts(String button, String maxAttempts) {
         int attempts = Integer.parseInt(maxAttempts);
@@ -81,5 +107,4 @@ public class LoginStepDefs {
             loginPage.repeatedlyClickLoginButton(attempts);
         }
     }
-
 }
