@@ -26,9 +26,9 @@ Feature: Login
     Then the user should receive an error "<errorMessage>" message
 
     Examples:
-      | invusername        | invpassword | maxAttempts | errorMessage                                                                                       |
-      | chechel@gmail.com | 12345678    | 1           | Warning: No match for E-Mail Address and/or Password.                                              |
-      | use@example.com   | 1           | 6           | Warning: Your account has exceeded allowed number of login attempts. Please try again in 1 hour.   |
+      | invusername         | invpassword | maxAttempts  | errorMessage                                                                                       |
+      | chechel@gmail.com   | 12345678    | 1            | Warning: No match for E-Mail Address and/or Password.                                              |
+      | random@example.com  | 1           | 6            | Warning: Your account has exceeded allowed number of login attempts. Please try again in 1 hour.   |
 
 
 
