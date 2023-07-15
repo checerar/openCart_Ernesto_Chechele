@@ -1,6 +1,5 @@
 package Support;
 
-
 import Pages.PagesFactory;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
@@ -18,35 +17,29 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 
 import java.util.Date;
 
-
 @Slf4j
 public class Hooks {
     public static WebDriver driver;
 
     @Before
-    public void before(Scenario scenario) {
-        log.info("starting" + scenario.getName());
+    public void before(Scenario scenario) throws InterruptedException {
+        log.info("Starting " + scenario.getName());
         String browser = System.getProperty("browser", "firefox");
         boolean headless = Boolean.parseBoolean(System.getProperty("headless", "false"));
         if ("chrome".equals(browser)) {
             ChromeOptions options = new ChromeOptions();
-
             if (headless) {
-                options.addArguments("--headless");
+                options.setHeadless(true);
             }
             driver = new ChromeDriver(options);
         } else if ("firefox".equals(browser)) {
             FirefoxOptions options = new FirefoxOptions();
-            if (headless) {
-                options.setHeadless(true);
-            }
+            options.setHeadless(headless);
             driver = new FirefoxDriver(options);
-
         } else if ("edge".equals(browser)) {
             EdgeOptions options = new EdgeOptions();
             options.addArguments("--remote-allow-origins=*");
             driver = new EdgeDriver(options);
-
         } else {
             throw new IllegalArgumentException("Invalid browser: " + browser);
         }
@@ -57,10 +50,9 @@ public class Hooks {
 
     @After
     public void after(Scenario scenario) {
-        log.info("ending " + scenario.getName());
+        log.info("Ending " + scenario.getName());
         if (scenario.isFailed()) {
-            final byte[] screenshot = ((TakesScreenshot)
-                    driver).getScreenshotAs(OutputType.BYTES);
+            final byte[] screenshot = ((TakesScreenshot) driver).getScreenshotAs(OutputType.BYTES);
             long time = new Date().getTime();
             String outputName = "screenshot_" + time + ".png";
             scenario.attach(screenshot, "image/png", outputName);
