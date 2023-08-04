@@ -7,6 +7,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 
 import java.util.List;
 
@@ -104,19 +105,22 @@ public class HomeValidationPage extends AbstractPage {
     }
 
     public void SearchBar(String product) {
-        WebElement searchBar = driver.findElement(By.id("search-bar"));
-        searchBar.sendKeys(product);
-        searchBar.submit();
+        WebElement searchBar = driver.findElement(By.id("search"));
+        searchBar.click();
+        WebElement searchElement = driver.findElement(By.xpath("//input[@class='form-control input-lg']"));
+        searchElement.sendKeys(product);
+
+        WebElement searchButton = driver.findElement(By.xpath("//button[@class='btn btn-default btn-lg']"));
+        searchButton.click();
     }
 
     public void SearchResults(String results) {
-        WebElement searchResults = driver.findElement(By.cssSelector(".search-results"));
-        List<WebElement> resultList = searchResults.findElements(By.tagName("li"));
-
+        List<WebElement> resultList = driver.findElements(By.className("product-thumb"));
         int expectedResults = Integer.parseInt(results);
         int actualResults = resultList.size();
 
         Assert.assertEquals("Number of search results does not match", expectedResults, actualResults);
+
     }
     public void InformationLink(String information) {
         WebElement informationLink = driver.findElement(By.linkText(information));

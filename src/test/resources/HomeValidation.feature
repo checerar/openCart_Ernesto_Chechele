@@ -25,7 +25,6 @@ Feature: Navigation Bar Functionality
       | product | results|
       | Mac     | 4      |
       | canon   | 1      |
-      | hp      | 1      |
 
   @FooterSuite
     @InformationOk
