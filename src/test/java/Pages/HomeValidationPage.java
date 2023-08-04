@@ -1,10 +1,14 @@
 package Pages;
 
 import lombok.extern.slf4j.Slf4j;
+import org.junit.Assert;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
+
+import java.util.List;
 
 @Slf4j
 public class HomeValidationPage extends AbstractPage {
@@ -88,4 +92,63 @@ public class HomeValidationPage extends AbstractPage {
     public void clickSearchButton() {
         searchButton.click();
     }
+
+    public void NavigationBar(String category) {
+        String xpath = "//ul[@class='nav navbar-nav']/li/a[contains(text(), '" + category + "')]";
+        WebElement categoryElement = driver.findElement(By.xpath(xpath));
+        categoryElement.click();
+    }
+    public void RedirectedToThePage(String url) {
+        String currentURL = driver.getCurrentUrl();
+        Assert.assertTrue("User is not redirected to the expected URL", currentURL.equals(url));
+    }
+
+    public void SearchBar(String product) {
+        WebElement searchBar = driver.findElement(By.id("search-bar"));
+        searchBar.sendKeys(product);
+        searchBar.submit();
+    }
+
+    public void SearchResults(String results) {
+        WebElement searchResults = driver.findElement(By.cssSelector(".search-results"));
+        List<WebElement> resultList = searchResults.findElements(By.tagName("li"));
+
+        int expectedResults = Integer.parseInt(results);
+        int actualResults = resultList.size();
+
+        Assert.assertEquals("Number of search results does not match", expectedResults, actualResults);
+    }
+    public void InformationLink(String information) {
+        WebElement informationLink = driver.findElement(By.linkText(information));
+        informationLink.click();
+    }
+
+    public void ToURLWithTitle(String url, String title) {
+        String currentURL = driver.getCurrentUrl();
+        String currentTitle = driver.getTitle();
+
+        Assert.assertTrue("User is not redirected to the expected URL", currentURL.equals(url));
+        Assert.assertTrue("User is not redirected to the expected page", currentTitle.equals(title));
+    }
+
+    public void CustomerServiceLink(String customer) {
+        WebElement customerServiceLink = driver.findElement(By.linkText(customer));
+        customerServiceLink.click();
+    }
+
+
+    public void ExtrasSection(String extras) {
+        WebElement extrasLink = driver.findElement(By.linkText(extras));
+        extrasLink.click();
+            }
+
+
+    public void MyAccountSection(String account) {
+        WebElement myAccountLink = driver.findElement(By.linkText(account));
+        myAccountLink.click();
+    }
 }
+
+
+
+

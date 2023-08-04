@@ -21,7 +21,6 @@ Feature: Navigation Bar Functionality
   Scenario Outline: Search Products
     When the user searches for the product "<product>" in the search bar
     Then the user should see the number of search "<results>" results
-
     Examples:
       | product | results|
       | Mac     | 4      |
