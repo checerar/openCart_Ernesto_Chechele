@@ -27,46 +27,31 @@ Feature: Navigation Bar Functionality
       | canon   | 1      |
 
   @FooterSuite
-    @InformationOk
-  Scenario Outline: Verify the navigation through Information links
-    When the user clicks on "<information>" in the Information section of the footer
+  Scenario Outline: Footer links Navigation
+    When the user clicks on the "<link>" link in the footer
     Then the user should be redirected to the URL "<url>" with the title: "<title>"
     Examples:
-      | information          | title                |url                                                                                    |
-      | About Us             | About Us             |http://opencart.abstracta.us/index.php?route=information/information&information_id=4  |
-      | Delivery Information | Delivery Information |http://opencart.abstracta.us/index.php?route=information/information&information_id=6  |
-      | Privacy Policy       | Privacy Policy       |http://opencart.abstracta.us/index.php?route=information/information&information_id=3  |
-      | Terms & Conditions   | Terms & Conditions   |http://opencart.abstracta.us/index.php?route=information/information&information_id=5  |
-
-  @CustomerServiceOk
-  Scenario Outline: Verify the navigation through Customer Service links
-    When the user clicks on "<customer>" in the Customer Service section of the footer
-    Then the user should be redirected to the URL "<url>" with the title: "<title>"
-    Examples:
-      | customer   | title      | url                                                              |
-      | Contact Us | Contact Us | http://opencart.abstracta.us/index.php?route=information/contact |
-      | Returns    | Returns    | https://opencart.abstracta.us/index.php?route=account/return/add |
-      | Site Map   | Site Map   | http://opencart.abstracta.us/index.php?route=information/sitemap |
-
-  @ExtrasOk
-  Scenario Outline: Verify the navigation through Extras links
-    When the user clicks on "<extras>" in the Extras section of the footer
-    Then the user should be redirected to the URL "<url>" with the title: "<title>"
-    Examples:
-      | extras            | title                    | url                                                               |
-      | Brands            | Find Your Favorite Brand | http://opencart.abstracta.us/index.php?route=product/manufacturer |
-      | Gift Certificates | Account                  | https://opencart.abstracta.us/index.php?route=account/voucher     |
-      | Affiliate         | Account                  | https://opencart.abstracta.us/index.php?route=account/account     |
-      | Specials          | Special Offers           | http://opencart.abstracta.us/index.php?route=product/special      |
+      | link                 | title                       | url                                                                                    |
+      | About Us             | About Us                    | http://opencart.abstracta.us/index.php?route=information/information&information_id=4  |
+      | Delivery Information | Delivery Information        | http://opencart.abstracta.us/index.php?route=information/information&information_id=6  |
+      | Privacy Policy       | Privacy Policy              | http://opencart.abstracta.us/index.php?route=information/information&information_id=3  |
+      | Terms & Conditions   | Terms & Conditions          | http://opencart.abstracta.us/index.php?route=information/information&information_id=5  |
+      | Contact Us           | Contact Us                  | http://opencart.abstracta.us/index.php?route=information/contact                       |
+      | Returns              | Product Returns             | https://opencart.abstracta.us/index.php?route=account/return/add                       |
+      | Site Map             | Site Map                    | http://opencart.abstracta.us/index.php?route=information/sitemap                       |
+      | Brands               | Find Your Favorite Brand    | http://opencart.abstracta.us/index.php?route=product/manufacturer                      |
+      | Gift Certificates    | Purchase a Gift Certificate | https://opencart.abstracta.us/index.php?route=account/voucher                          |
+      | Affiliate            | Affiliate Program           | https://opencart.abstracta.us/index.php?route=affiliate/login                          |
+      | Specials             | Special Offers              | http://opencart.abstracta.us/index.php?route=product/special                           |
 
   @MyAccountOk
   Scenario Outline: Verify the navigation through My Account links
     When the user is logged in to the website with username: "eechechele@gmail.com" and password: "123456789"
-    And clicks on "<account>" in the My Account section of the footer
-    Then the user should be redirected to the URL "<url>" with the title: "<title>"
+    And clicks on the "<account>" link in the My Account section of the footer
+    Then the user should be redirected to "<relativeUrl>" with the title: "<pageTitle>"
     Examples:
-      | account       | title      | url                                                              |
-      | My Account    | My Account | https://opencart.abstracta.us/index.php?route=account/account    |
-      | Order History | Account    | https://opencart.abstracta.us/index.php?route=account/order      |
-      | Wish List     | Account    | https://opencart.abstracta.us/index.php?route=account/wishlist   |
-      | Newsletter    | Account    | https://opencart.abstracta.us/index.php?route=account/newsletter |
+      | account       | pageTitle                 | relativeUrl                            |
+      | My Account    | My Account                | /index.php?route=account/account       |
+      | Order History | Order History             | /index.php?route=account/order         |
+      | Wish List     | My Wish List              | /index.php?route=account/wishlist      |
+      | Newsletter    | Newsletter Subscription   | /index.php?route=account/newsletter    |
