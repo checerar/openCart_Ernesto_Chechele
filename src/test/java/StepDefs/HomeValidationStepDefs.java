@@ -29,34 +29,23 @@ public class HomeValidationStepDefs {
         public void SearchResults(String results) {
                 homeValidationPage.SearchResults(results);
         }
-        @When("the user clicks on {string} in the Information section of the footer")
-        public void InformationLink(String information) {
-                homeValidationPage.InformationLink(information);
+        @When("the user clicks on the {string} link in the footer")
+        public void Footer(String link) {
+                homeValidationPage.ClicksLinksFooter(link);
         }
         @Then("the user should be redirected to the URL {string} with the title: {string}")
-        public void ToURLWithTitle(String url, String title) {
-                homeValidationPage.ToURLWithTitle(url, title);
+        public void URLWithTitle(String url, String title) {
+                homeValidationPage.URLWithTitle(url, title);
         }
-
-        @When("the user clicks on {string} in the Customer Service section of the footer")
-        public void CustomerServiceLink(String customer) {
-                homeValidationPage.CustomerServiceLink(customer);
-
-        }
-
-
-        @When("the user clicks on {string} in the Extras section of the footer")
-        public void ExtrasSection(String extras) {
-                homeValidationPage.ExtrasSection(extras);
-
-        }
-
-        @And("clicks on {string} in the My Account section of the footer")
+        @And("clicks on the {string} link in the My Account section of the footer")
         public void MyAccountSection(String account) {
                 homeValidationPage.MyAccountSection(account);
         }
 
-
+        @Then("the user should be redirected to {string} with the title: {string}")
+        public void RedirectedWithTheTitle(String relativeUrl, String pageTitle) {
+                homeValidationPage.RelativeUrlPageTitle(relativeUrl, pageTitle);
+        }
 }
 
 
