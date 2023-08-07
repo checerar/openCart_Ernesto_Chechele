@@ -3,58 +3,60 @@ package StepDefs;
 import Pages.CheckoutPage;
 import Pages.LoginPage;
 import Pages.PagesFactory;
-import io.cucumber.java.en.Given;
-import io.cucumber.java.en.When;
+import Pages.RegistrationPage;
+import io.cucumber.java.en.And;
 import io.cucumber.java.en.Then;
 
 public class CheckoutStepDefs {
 
     CheckoutPage checkoutPage = PagesFactory.getInstance().getCheckoutPage();
-    @Given("the user is on the checkout page")
-    public void userIsOnCheckoutPage() {
+
+    @And("the user clicks on the Checkout link")
+    public void ClicksCheckoutLink() {
+        checkoutPage.checkoutLink();
+    }
+    @And("the user provides the billing details {string}")
+    public void billingDetails(String billingDetails) {
+        checkoutPage.billingDetails(billingDetails);
     }
 
-    @When("the user chooses {string} on Step 2: Billing Details")
-    public void chooseBillingDetails(String billingDetails) {
+    @And("clicks on the Continue button with name: {string}")
+    public void continueButton(String buttonName) {
+        checkoutPage.clickContinueButton(buttonName);
+    }
+    @And("the user provides the delivery details {string}")
+    public void deliveryDetails(String deliveryDetails) {
+        checkoutPage.deliveryDetails(deliveryDetails);
     }
 
-    @When("clicks on the Continue button")
-    public void clickContinueButton() {
+    @And("the user selects the delivery method {string}")
+    public void deliveryMethod(String deliveryMethod) {
+        checkoutPage.deliveryMethod(deliveryMethod);
     }
 
-    @When("the user chooses {string} on Step 3: Delivery Details")
-    public void chooseDeliveryDetails(String deliveryDetails) {
+    @And("the user selects the payment method {string}")
+    public void paymentMethod(String paymentMethod) {
+        checkoutPage.paymentMethod(paymentMethod);
     }
 
-    @When("the user chooses {string} on Step 4: Delivery Method")
-    public void chooseDeliveryMethod(String deliveryMethod) {
-    }
-
-    @When("the user chooses {string} on Step 5: Payment Method")
-    public void choosePaymentMethod(String paymentMethod) {
-    }
-
-    @When("checks the {string}")
-    public void checkTermsAndConditions(String checkbox) {
-    }
-
-    @When("clicks on the Continue Button")
-    public void clickContinueButton2() {
+    @And("checks the Terms&Conditions checkbox")
+    public void termsAndConditions() {
+        checkoutPage.termsAndConditions();
     }
 
     @Then("the user should see the Confirm Order form with details")
-    public void verifyConfirmOrderForm() {
+    public void confirmOrderForm() {
+        checkoutPage.orderForm();
     }
 
-    @Then("the user can click on the Confirm Order button")
-    public void clickConfirmOrderButton() {
+    @And("the user can click on the Confirm Order button")
+    public void confirmOrderButton() {
+        checkoutPage.orderButton();
     }
 
-    @Then("the user is redirected to the checkout success page")
-    public void verifyCheckoutSuccessPage() {
-    }
-
-    @Then("should see a successful message: {string}")
-    public void verifySuccessMessage(String message) {
+    @And("the user is redirected to the checkout success page with the message: {string}")
+    public void CheckoutSuccess(String message) {
+        checkoutPage.checkoutSuccess(message);
     }
 }
+
