@@ -23,3 +23,29 @@ import org.junit.runner.RunWith;
 public class RunTest {
 
 }
+/*package Run;
+
+import org.junit.runner.RunWith;
+
+import io.cucumber.junit.CucumberOptions;
+import io.github.artsok.RepeatedIfExceptionsTest;
+import junitparams.JUnitParamsRunner;
+import junitparams.Parameters;
+import junitparams.naming.TestCaseName;
+import org.junit.runner.RunWith;
+import org.junit.runners.Suite;
+
+@RunWith(Suite.class)
+@Suite.SuiteClasses({
+        MyTest1.class,
+        MyTest2.class,
+        MyTest3.class
+})
+@CucumberOptions(
+        plugin = {"pretty", "html:target/cucumber-reports"},
+        features = "src/test/resources",
+        glue = "StepDefs"
+)
+public class TestSuite {
+}
+*/
