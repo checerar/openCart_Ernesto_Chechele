@@ -46,6 +46,9 @@ public class LoginStepDefs {
             case "My Account":
                 loginPage.clickMyAccountLink();
                 break;
+                case "Register":
+                loginPage.clickRegisterLink();
+                break;
         }
     }
 
