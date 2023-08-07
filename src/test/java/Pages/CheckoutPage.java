@@ -1,94 +1,131 @@
 package Pages;
 
+import lombok.extern.slf4j.Slf4j;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import java.util.ArrayList;
+import java.util.List;
+@Slf4j
+public class CheckoutPage extends AbstractPage {
 
-public class CheckoutPage extends AbstractPage{
-    private WebDriver driver;
+    private final By checkoutLink = By.linkText("Checkout");
+    private final By existingPaymentOption = By.cssSelector("input[type='radio'][name='payment_address'][value='existing']");
+    private final By existingDeliveryDetails = By.cssSelector("input[type='radio'][name='shipping_address'][value='existing']");
+    private final By deliveryMethods = By.cssSelector("input[type='radio'][name='shipping_method'][value='flat.flat']");
+    private final By transferPaymentMethod = By.cssSelector("input[type='radio'][name='payment_method'][value='bank_transfer']");
+    private final By cashPaymentMethod = By.cssSelector("input[type='radio'][name='payment_method'][value='cod']");
+    private final By termsAndConditions = By.name("agree");
+    private final By confirmOrderButton = By.id("button-confirm");
+    private final By order = By.className("table table-bordered table-hover");
+    private final By billingContinueButton = By.id("button-payment-address");
+    private final By deliveryContinueButton = By.id("button-shipping-address");
+    private final By deliveryMethodContinueButton = By.id("button-shipping-method");
+    private final By paymentContinueButton = By.id("button-payment-method");
+    private final By checkout = By.xpath("//h1[contains((text(), 'Checkout')]");
+    private final By checkoutSuccess = By.xpath("//h1[contains((text(), 'Your order has been placed!')]");
 
-    // Locators
-    private By billingDetailsDropdown = By.xpath("//input[@type='radio' and @name='payment_address' and @value='existing']");
-
-    private By continueButtonBilling = By.id("button-payment-address");
-    private By deliveryDetailsDropdown = By.xpath("//input[@type='radio' and @name='shipping_address' and @value='existing']");
-
-    private By continueButtonDetails = By.id("button-shipping-address");
-
-    private By deliveryMethodDropdown = By.xpath("//input[@type='radio' and @name='shipping_method' and @value='flat.flat']");
-    private By continueButtonMethod = By.id("button-shipping-method");
-    private By paymentMethodDropdown = By.xpath("//input[@type='radio' and @name='payment_method' and @value='bank_transfer']");
-    private By termsAndConditionsCheckbox = By.xpath("//input[@type='checkbox' and @name='agree']");
-    private By continueButtonPayment = By.id("button-payment-method");
-    private By confirmOrderButton = By.id("button-confirm");
-    private By successMessage = By.xpath("//div[@id='content' and contains(@class, 'col-sm-12')]//h1[text()='Your order has been placed!']");
-            ;
-
-
-    public CheckoutPage(WebDriver driver) {
+    public CheckoutPage(WebDriver driver) throws InterruptedException {
         super(driver);
-        PageFactory.initElements(driver, this);
-    }
 
+    }
     @Override
     public WebElement getPageLoadedTestElement() {
-        return null;
+        return getDriver().findElement(checkout);
     }
 
-    public void chooseBillingDetails(String billingDetails) {
-        selectOptionFromDropdown(billingDetailsDropdown, billingDetails);
+    public void checkoutLink() {
+        getDriver().findElement(checkoutLink).click();
     }
 
-    public void clickContinueButtonBilling() {
-        driver.findElement(continueButtonBilling).click();
+    public void billingDetails(String billingDetails) {
+        getDriver().findElement(existingPaymentOption).click();
     }
-
-    public void chooseDeliveryDetails(String deliveryDetails) {
-        selectOptionFromDropdown(deliveryDetailsDropdown, deliveryDetails);
-    }
-   public void clickContinueButtonDetails() {
-        driver.findElement(continueButtonDetails).click();
-    }
-
-    public void chooseDeliveryMethod(String deliveryMethod) {
-        selectOptionFromDropdown(deliveryMethodDropdown, deliveryMethod);
-    }
- public void clickContinueButtonMethod() {
-        driver.findElement(continueButtonMethod).click();
-    }
-
-    public void choosePaymentMethod(String paymentMethod) {
-        selectOptionFromDropdown(paymentMethodDropdown, paymentMethod);
-    }
-
-
-    public void checkTermsAndConditions() {
-        WebElement checkbox = driver.findElement(termsAndConditionsCheckbox);
-        if (!checkbox.isSelected()) {
-            checkbox.click();
+    public void clickContinueButton(String buttonName) {
+        switch (buttonName.toLowerCase()) {
+            case "billing details":
+                clickButton(billingContinueButton);
+                break;
+            case "delivery details":
+                clickButton(deliveryContinueButton);
+                break;
+            case "delivery method":
+                clickButton(deliveryMethodContinueButton);
+                break;
+            case "payment method":
+                clickButton(paymentContinueButton);
+                break;
+            case "confirm order":
+                clickButton(confirmOrderButton);
+                break;
+            default:
+                throw new IllegalArgumentException("Botón de Continuar no encontrado: " + buttonName);
         }
     }
 
-    public void clickContinueButtonPayment() {
-        driver.findElement(continueButtonPayment).click();
+    private void clickButton(By buttonLocator) {
+        try {
+            WebElement continueButton = wait.until(ExpectedConditions.elementToBeClickable(buttonLocator));
+            continueButton.click();
+        } catch (NoSuchElementException e) {
+            throw new NoSuchElementException("No se pudo encontrar el botón: " + buttonLocator);
+        }
     }
 
-    public void clickConfirmOrderButton() {
-        driver.findElement(confirmOrderButton).click();
+    public void deliveryMethod(String deliveryMethod) {
+        getDriver().findElement(deliveryMethods).click();
     }
 
-    public boolean isCheckoutSuccessPageDisplayed() {
-        return driver.getCurrentUrl().contains("checkout/success");
+    public void deliveryDetails(String deliveryDetails) {
+        getDriver().findElement(existingDeliveryDetails).click();
+    }
+    public void paymentMethod(String paymentMethod) {
+        if (paymentMethod.equals("Bank Transfer")) {
+            getDriver().findElement(transferPaymentMethod).click();
+        } else if (paymentMethod.equals("Cash On Delivery")) {
+            getDriver().findElement(cashPaymentMethod).click();
+        } else {
+            throw new IllegalArgumentException("Método de pago no válido");
+        }
     }
 
-    public String getSuccessMessage() {
-        return driver.findElement(successMessage).getText();
+    public void termsAndConditions() {
+        getDriver().findElement(termsAndConditions).click();
+    }
+    public boolean orderForm() {
+        WebElement table = driver.findElement(order);
+        String[] expectedCellTexts = {
+                "Product Name",
+                "Model",
+                "Quantity",
+                "Unit Price",
+                "Total"
+        };
+
+        List<WebElement> cells = table.findElements(By.tagName("td"));
+        List<String> actualCellTexts = new ArrayList<>();
+
+        for (WebElement cell : cells) {
+            actualCellTexts.add(cell.getText());
+        }
+        for (String expectedCellText : expectedCellTexts) {
+            if (!actualCellTexts.contains(expectedCellText)) {
+                return false;
+            }
+        }
+        return true;
     }
 
-    private void selectOptionFromDropdown(By dropdownLocator, String option) {
-        WebElement dropdown = driver.findElement(dropdownLocator);
-        dropdown.click();
-        dropdown.findElement(By.xpath("//option[text()='" + option + "']")).click();
+    public void orderButton() {
+        getDriver().findElement(confirmOrderButton).click();
     }
+
+    public boolean checkoutSuccess(String message) {
+        WebElement successElement = wait.until(ExpectedConditions.visibilityOfElementLocated(checkoutSuccess));
+        return successElement.getText().contains(message);
+    }
+
+
 }
