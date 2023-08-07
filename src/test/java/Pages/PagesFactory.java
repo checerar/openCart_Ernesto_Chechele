@@ -11,7 +11,7 @@ public class PagesFactory {
         private final LoginPage loginPage;
        private final LogoutPage logoutPage;
         //private final CartPage cartPage;
-        //private final CheckoutPage checkoutPage;
+        private final CheckoutPage checkoutPage;
        private final HomeValidationPage homeValidationPage;
 
 
@@ -22,7 +22,7 @@ public class PagesFactory {
             loginPage = new LoginPage(driver);
          logoutPage = new LogoutPage(driver);
             //cartPage = new CartPage(driver);
-            //checkoutPage = new CheckoutPage(driver);
+            checkoutPage = new CheckoutPage(driver);
             homeValidationPage = new HomeValidationPage(driver);
 
         }
@@ -76,10 +76,10 @@ public class PagesFactory {
 
        // }
 
-        //public CheckoutPage getCheckoutPage () {
+        public CheckoutPage getCheckoutPage () {
 
-          //  return checkoutPage;
-        //}
+            return checkoutPage;
+        }
 
         public HomeValidationPage getHomeValidationPage () {
 
