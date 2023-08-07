@@ -128,4 +128,8 @@ public class LoginPage extends AbstractPage {
         Assert.assertEquals(expectedUrl, currentUrl);
     }
 
+    public void clickRegisterLink() {
+        By registerLink = By.linkText("Register");
+        getDriver().findElement(registerLink).click();
+    }
 }
