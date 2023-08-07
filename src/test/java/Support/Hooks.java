@@ -1,11 +1,12 @@
 package Support;
 
-
 import Pages.PagesFactory;
 import io.cucumber.java.After;
 import io.cucumber.java.Before;
 import io.cucumber.java.Scenario;
 import lombok.extern.slf4j.Slf4j;
+import net.masterthought.cucumber.ReportBuilder;
+import net.masterthought.cucumber.Configuration;
 import org.openqa.selenium.OutputType;
 import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
@@ -16,12 +17,14 @@ import org.openqa.selenium.edge.EdgeOptions;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.firefox.FirefoxOptions;
 
+import java.io.File;
+import java.util.ArrayList;
 import java.util.Date;
-
+import java.util.List;
 
 @Slf4j
 public class Hooks {
-    public static WebDriver driver;
+       public static WebDriver driver;
 
     @Before
     public void before(Scenario scenario) throws InterruptedException {
@@ -63,8 +66,25 @@ public class Hooks {
                     driver).getScreenshotAs(OutputType.BYTES);
             long time = new Date().getTime();
             String outputName = "screenshot_" + time + ".png";
-            scenario.attach(screenshot, "image/png", outputName);
+            String outputDirectory = "C:/Users/echechele/Hiberus/openCart_Ernesto_Chechele/src/test/screenshots/";
+            scenario.attach(screenshot, "image/png", outputDirectory + outputName);
+
+            //scenario.attach(screenshot, "image/png", outputName);
+            File reportOutputDirectory = new File("target/cucumber-reports");
+            List<String> jsonFiles = new ArrayList<>();
+            jsonFiles.add("target/cucumber.json");
+
+            Configuration configuration = new Configuration(reportOutputDirectory, "Nombre del Proyecto");
+            configuration.setBuildNumber("1");
+
+            ReportBuilder reportBuilder = new ReportBuilder(jsonFiles, configuration);
+            reportBuilder.generateReports();
+
+
+
         }
         driver.close();
     }
-}
+
+    }
+
